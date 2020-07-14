@@ -17,6 +17,14 @@ export class TodoListComponent implements OnInit {
 
   constructor(private todoService: TodoService) { }
 
+  getTodosEc2(): void {
+    this.todoService.getTodos().subscribe(
+      response => {
+        this.listOfTodos = response;
+      }
+    );
+  }
+
   postTodoEc2(todoSub: FormGroup): void {
     let form = JSON.stringify(todoSub.value);
     this.todoService.postTodo(form).subscribe(
@@ -27,12 +35,14 @@ export class TodoListComponent implements OnInit {
     );
   }
 
-  getTodosEc2(): void {
-    this.todoService.getTodos().subscribe(
+  deleteTodo(todo): void {
+    let todoId = todo.id;
+    this.todoService.deleteTodo(todoId).subscribe(
       response => {
-        this.listOfTodos = response;
+        console.log('success');
+        this.getTodosEc2();
       }
-    );
+    )
   }
 
   ngOnInit(): void {
