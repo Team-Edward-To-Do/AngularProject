@@ -119,10 +119,7 @@
           }
         }
       }
+      }},
+      "defaultProject": "Team-Edward-Project"
     }
-  },
-  "defaultProject": "Team-Edward-Project",
-  "cli": {
-    "analytics": false
-  }
-}
+    
