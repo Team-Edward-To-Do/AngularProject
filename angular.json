@@ -119,6 +119,7 @@
           }
         }
       }
-    }},
-  "defaultProject": "Team-Edward-Project"
-}
+      }},
+      "defaultProject": "Team-Edward-Project"
+    }
+    
