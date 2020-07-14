@@ -36,13 +36,16 @@ export class TodoListComponent implements OnInit {
   }
 
   deleteTodo(todo): void {
-    let todoId = todo.id;
-    this.todoService.deleteTodo(todoId).subscribe(
-      response => {
-        console.log('success');
-        this.getTodosEc2();
-      }
-    )
+    let name = todo.title;
+    if (confirm('Are you sure want to delete this todo: ' + name)) {
+      let todoId = todo.id;
+      this.todoService.deleteTodo(todoId).subscribe(
+        response => {
+          console.log('success');
+          this.getTodosEc2();
+        }
+      )
+    }
   }
 
   ngOnInit(): void {
