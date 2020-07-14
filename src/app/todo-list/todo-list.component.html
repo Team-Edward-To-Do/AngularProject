@@ -14,7 +14,7 @@
                     <th>Completed:</th>
                     <th>Title:</th>
                     <th>Date:</th>
-                    <th>Id:</th>
+                    <th>Delete Todo!</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,7 +22,7 @@
                     <td><input type="checkbox"></td>
                     <td>{{temp.title}}</td>
                     <td>{{temp.createdOn}}</td>
-                    <td><button>{{temp.id}}</button></td>
+                    <td><button (click)="deleteTodo(temp)">Delete This Todo!!</button></td>
                 </tr>
             </tbody>
         </table>
