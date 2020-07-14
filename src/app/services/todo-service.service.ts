@@ -7,17 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class TodoService {
 
-  constructor(private httpCli: HttpClient) { }
+  url = 'http://ec2-34-220-194-190.us-west-2.compute.amazonaws.com:8080/todos';
 
-  postTodo(todoForm): Observable<string> {
-    const httpHead = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Orgin': '*'
-      })
-    };
-    return this.httpCli.post<string>('http://ec2-34-220-194-190.us-west-2.compute.amazonaws.com:8080/todos', todoForm, httpHead);
-  }
+  constructor(private httpCli: HttpClient) { }
 
   getTodos(): Observable<string[]> {
     const httpHead = {
@@ -26,6 +18,16 @@ export class TodoService {
         'Access-Control-Allow-Orgin': '*'
       })
     };
-    return this.httpCli.get<string[]>('http://ec2-34-220-194-190.us-west-2.compute.amazonaws.com:8080/todos', httpHead);
+    return this.httpCli.get<string[]>(this.url, httpHead);
+  }
+
+  postTodo(todoForm): Observable<string> {
+    const httpHead = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Orgin': '*'
+      })
+    };
+    return this.httpCli.post<string>(this.url, todoForm, httpHead);
   }
 }

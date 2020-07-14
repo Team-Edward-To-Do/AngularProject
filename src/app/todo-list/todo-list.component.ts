@@ -1,14 +1,13 @@
-import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TodoService } from '../services/todo-service.service';
-import { Todo } from '../todo';
 
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.css']
 })
-export class TodoListComponent implements OnInit, OnChanges {
+export class TodoListComponent implements OnInit {
   listOfTodos: string[];
   todoName: string;
 
@@ -16,48 +15,28 @@ export class TodoListComponent implements OnInit, OnChanges {
     title: new FormControl('')
   });
 
-  constructor(private rocp: TodoService) { }
+  constructor(private todoService: TodoService) { }
 
   postTodoEc2(todoSub: FormGroup): void {
     let form = JSON.stringify(todoSub.value);
-    this.rocp.postTodo(form).subscribe(
+    this.todoService.postTodo(form).subscribe(
       response => {
         console.log('success');
-        this.rocp.getTodos().subscribe(
-          response => {
-            this.listOfTodos = response;
-          }
-        );
+        this.getTodosEc2();
       }
     );
   }
 
   getTodosEc2(): void {
-    this.rocp.getTodos().subscribe(
+    this.todoService.getTodos().subscribe(
       response => {
-        console.log(response);
+        this.listOfTodos = response;
       }
     );
   }
-
-  
 
   ngOnInit(): void {
     console.log('init');
-    this.rocp.getTodos().subscribe(
-      response => {
-        this.listOfTodos = response;
-      }
-    );
+    this.getTodosEc2();
   }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('changed');
-    this.rocp.getTodos().subscribe(
-      response => {
-        this.listOfTodos = response;
-      }
-    );
-  }
-
 }
