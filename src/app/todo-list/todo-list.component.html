@@ -30,7 +30,8 @@
             </thead>
             <tbody>
                 <tr *ngFor = 'let temp of filteredTodos'>
-                    <td><input type="checkbox"></td>
+                    <td *ngIf="temp.completed; else notCompletedBlock"><input type="checkbox" checked></td>
+                    <ng-template #notCompletedBlock><td><input type="checkbox" (click)="completeTodo(temp)">{{temp.completed}}</td></ng-template>
                     <td>{{temp.title}}</td>
                     <td>{{temp.createdOn}}</td>
                     <td><button (click)="deleteTodo(temp)">Delete This Todo!!</button></td>
