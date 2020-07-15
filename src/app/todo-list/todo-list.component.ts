@@ -12,6 +12,7 @@ export class TodoListComponent implements OnInit {
   pageTitle = 'Todo List';
   listOfTodos: Todo[];
   todoName: string;
+  uncompleteTodo: Todo;
 
   filteredTodos: Todo[];
 
@@ -26,7 +27,9 @@ export class TodoListComponent implements OnInit {
   }
 
   todos = new FormGroup({
-    title: new FormControl('')
+    title: new FormControl(''),
+    completed: new FormControl(''),
+    id: new FormControl('')
   });
 
   performFilter(filterBy: string): Todo[] {
@@ -51,6 +54,22 @@ export class TodoListComponent implements OnInit {
     this.todoService.postTodo(form).subscribe(
       response => {
         console.log('success');
+        this.getTodos();
+      }
+    );
+  }
+
+  updateTodo(title: string, id: number, createdOn: any): void {
+    this.uncompleteTodo = {
+                          title: title,
+                          completed: false,
+                          id: id,
+                          createdOn: createdOn
+    }
+    let form = JSON.stringify(this.uncompleteTodo);
+    this.todoService.updateTodo(form).subscribe(
+      response => {
+        console.log(response);
         this.getTodos();
       }
     );

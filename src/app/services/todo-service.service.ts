@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+<<<<<<< HEAD
 import { Todo } from '../todo';
+=======
+>>>>>>> 4e2300e... Uncomplete works !!
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +33,16 @@ export class TodoService {
       })
     };
     return this.httpCli.post<string>(this.url, todoForm, httpHead);
+  }
+
+  updateTodo(todoForm): Observable<string> {
+    const httpHead = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Orgin': '*'
+      })
+    };
+    return this.httpCli.put<string>(this.url, todoForm, httpHead);
   }
 
   completeTodo(todoId): Observable<string> {

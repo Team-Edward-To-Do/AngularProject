@@ -29,9 +29,15 @@
                 </tr>
             </thead>
             <tbody>
+<<<<<<< HEAD
                 <tr *ngFor = 'let temp of filteredTodos'>
                     <td *ngIf="temp.completed; else notCompletedBlock"><input type="checkbox" checked></td>
                     <ng-template #notCompletedBlock><td><input type="checkbox" (click)="completeTodo(temp)">{{temp.completed}}</td></ng-template>
+=======
+                <tr *ngFor = 'let temp of listOfTodos'>
+                    <td *ngIf="temp.completed; else notCompletedBlock"><input type="checkbox" (click)="updateTodo(temp.title, temp.id, temp.createdOn)" checked></td>
+                    <ng-template #notCompletedBlock><td><input type="checkbox" (click)="completeTodo(temp)"></td></ng-template>
+>>>>>>> 4e2300e... Uncomplete works !!
                     <td>{{temp.title}}</td>
                     <td>{{temp.createdOn}}</td>
                     <td><button (click)="deleteTodo(temp)">Delete This Todo!!</button></td>
