@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TodoService } from '../services/todo-service.service';
+import { Todo } from '../todo';
 
 @Component({
   selector: 'app-todo-list',
@@ -8,12 +9,33 @@ import { TodoService } from '../services/todo-service.service';
   styleUrls: ['./todo-list.component.css']
 })
 export class TodoListComponent implements OnInit {
+  pageTitle = 'Todo List';
   listOfTodos: string[];
   todoName: string;
+
+  todosList: Todo[];
+  filteredTodos: Todo[];
+  // Filter fields
+  attrListFilter = 'This is the intial Value';
+  get listFilter(): string {
+      return this.attrListFilter;
+  }
+  set listFilter(temp: string) {
+      this.attrListFilter = temp;
+      this.filteredTodos = this.attrListFilter ?
+      this.performFilter(this.attrListFilter) : this.todosList;
+  }
+
 
   todos = new FormGroup({
     title: new FormControl('')
   });
+
+  performFilter(filterBy: string): Todo[] {
+    filterBy = filterBy.toLocaleLowerCase();
+    return this.todosList.filter((amazinggoal: Todo) =>
+    amazinggoal.title.toLocaleLowerCase().indexOf(filterBy) !== -1);
+}
 
   constructor(private todoService: TodoService) { }
 

@@ -7,13 +7,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TodoListComponent } from './todo-list/todo-list.component';
 import { TodoService } from './services/todo-service.service';
-import { FilterListComponent } from './filter-list/filter-list.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoListComponent,
-    FilterListComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule
