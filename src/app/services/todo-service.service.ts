@@ -33,6 +33,16 @@ export class TodoService {
     return this.httpCli.post<string>(this.url, todoForm, httpHead);
   }
 
+  completeTodo(todoId): Observable<string> {
+    const httpHead = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Orgin': '*'
+      })
+    };
+    return this.httpCli.patch<string>(this.url + '/' + todoId, httpHead);
+  }
+
   deleteTodo(todoId): Observable<string> {
     const httpHead = {
       headers: new HttpHeaders({
