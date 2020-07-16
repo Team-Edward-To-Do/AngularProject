@@ -14,7 +14,7 @@
     <div class="text-center">
         <form [formGroup]="todos">
             <input type="text" formControlName="title">
-            <button (click)="postTodoEc2(todos)">Create Todo</button>
+            <button (click)="postTodo(todos)">Create Todo</button>
         </form>
     </div>
 
@@ -30,7 +30,8 @@
             </thead>
             <tbody>
                 <tr *ngFor = 'let temp of filteredTodos'>
-                    <td><input type="checkbox"></td>
+                    <td *ngIf="temp.completed; else notCompletedBlock"><input type="checkbox" (click)="updateTodo(temp.title, temp.id, temp.createdOn)" checked></td>
+                    <ng-template #notCompletedBlock><td><input type="checkbox" (click)="completeTodo(temp)"></td></ng-template>
                     <td>{{temp.title}}</td>
                     <td>{{temp.createdOn}}</td>
                     <td><button (click)="deleteTodo(temp)">Delete This Todo!!</button></td>

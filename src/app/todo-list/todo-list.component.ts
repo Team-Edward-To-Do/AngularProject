@@ -12,6 +12,7 @@ export class TodoListComponent implements OnInit {
   pageTitle = 'Todo List';
   listOfTodos: Todo[];
   todoName: string;
+  uncompleteTodo: Todo;
 
   filteredTodos: Todo[];
 
@@ -25,9 +26,10 @@ export class TodoListComponent implements OnInit {
       this.performFilter(this.attrListFilter) : this.listOfTodos;
   }
 
-
   todos = new FormGroup({
-    title: new FormControl('')
+    title: new FormControl(''),
+    completed: new FormControl(''),
+    id: new FormControl('')
   });
 
   performFilter(filterBy: string): Todo[] {
@@ -38,7 +40,7 @@ export class TodoListComponent implements OnInit {
 
   constructor(private todoService: TodoService) { }
 
-  getTodosEc2(): void {
+  getTodos(): void {
     this.todoService.getTodos().subscribe(
       response => {
         this.listOfTodos = response;
@@ -47,14 +49,40 @@ export class TodoListComponent implements OnInit {
     );
   }
 
-  postTodoEc2(todoSub: FormGroup): void {
+  postTodo(todoSub: FormGroup): void {
     let form = JSON.stringify(todoSub.value);
     this.todoService.postTodo(form).subscribe(
       response => {
         console.log('success');
-        this.getTodosEc2();
+        this.getTodos();
       }
     );
+  }
+
+  updateTodo(title: string, id: number, createdOn: any): void {
+    this.uncompleteTodo = {
+                          title: title,
+                          completed: false,
+                          id: id,
+                          createdOn: createdOn
+    }
+    let form = JSON.stringify(this.uncompleteTodo);
+    this.todoService.updateTodo(form).subscribe(
+      response => {
+        console.log(response);
+        this.getTodos();
+      }
+    );
+  }
+
+  completeTodo(todo): void {
+    let todoId = todo.id;
+    this.todoService.completeTodo(todoId).subscribe(
+      response => {
+        console.log(response);
+        this.getTodos();
+      }
+    )
   }
 
   deleteTodo(todo): void {
@@ -64,14 +92,14 @@ export class TodoListComponent implements OnInit {
       this.todoService.deleteTodo(todoId).subscribe(
         response => {
           console.log('success');
-          this.getTodosEc2();
+          this.getTodos();
         }
-      )
+      );
     }
   }
 
   ngOnInit(): void {
     console.log('init');
-    this.getTodosEc2();
+    this.getTodos();
   }
 }
