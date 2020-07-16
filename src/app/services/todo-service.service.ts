@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-<<<<<<< HEAD
 import { Todo } from '../todo';
-=======
->>>>>>> 4e2300e... Uncomplete works !!
 
 @Injectable({
   providedIn: 'root'
