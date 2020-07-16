@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { identifierModuleUrl } from '@angular/compiler';
+import { Todo } from '../todo';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +13,14 @@ export class TodoService {
 
   constructor(private httpCli: HttpClient) { }
 
-  getTodos(): Observable<string[]> {
+  getTodos(): Observable<Todo[]> {
     const httpHead = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Orgin': '*'
       })
     };
-    return this.httpCli.get<string[]>(this.url, httpHead);
+    return this.httpCli.get<Todo[]>(this.url, httpHead);
   }
 
   postTodo(todoForm): Observable<string> {
