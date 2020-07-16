@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TodoService } from '../services/todo-service.service';
-// import { Todo } from '../todo';
+import { Todo } from '../todo';
 
 @Component({
   selector: 'app-todo-list',
@@ -10,13 +10,12 @@ import { TodoService } from '../services/todo-service.service';
 })
 export class TodoListComponent implements OnInit {
   pageTitle = 'Todo List';
-  listOfTodos: string[];
+  listOfTodos: Todo[];
   todoName: string;
 
-  // filteredTodos: Todo[];
-  filteredTodos: string[];
+  filteredTodos: Todo[];
 
-  attrListFilter = 'This is the intial Value';
+  attrListFilter = '';
   get listFilter(): string {
       return this.attrListFilter;
   }
@@ -31,10 +30,10 @@ export class TodoListComponent implements OnInit {
     title: new FormControl('')
   });
 
-  performFilter(filterBy: string) { // want type of Todo interface?
+  performFilter(filterBy: string): Todo[] {
     filterBy = filterBy.toLocaleLowerCase();
-    return this.listOfTodos.filter((amazinggoal) => // want type of Todo interface?
-    amazinggoal.toLocaleLowerCase().indexOf(filterBy) !== -1);
+    return this.listOfTodos.filter((singleTodo: Todo) =>
+    singleTodo.title.toLocaleLowerCase().indexOf(filterBy) !== -1);
 }
 
   constructor(private todoService: TodoService) { }
@@ -43,6 +42,7 @@ export class TodoListComponent implements OnInit {
     this.todoService.getTodos().subscribe(
       response => {
         this.listOfTodos = response;
+        this.filteredTodos = this.listOfTodos;
       }
     );
   }

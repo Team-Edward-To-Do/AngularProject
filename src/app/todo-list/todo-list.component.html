@@ -4,9 +4,7 @@
             Filter By :
         </div>
         <div class="col-md-4">
-            <!--The [()]is used to achieve two way data binding. This allows values to be projected
-            both ways from ts to HTML and HTMl to ts-->
-            <input type="text" [(ngModel)] = 'listFilter'>{{attrListFilter}}
+            <input type="text" [(ngModel)] = 'listFilter'>
         </div>
     </div>
 </div>
@@ -31,7 +29,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor = 'let temp of listOfTodos'>
+                <tr *ngFor = 'let temp of filteredTodos'>
                     <td><input type="checkbox"></td>
                     <td>{{temp.title}}</td>
                     <td>{{temp.createdOn}}</td>
