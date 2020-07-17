@@ -21,10 +21,10 @@ import { TodoComponent } from './todo/todo.component';
     BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule,
 
     RouterModule.forRoot([
-      {path: 'todos', component: TodoListComponent},
+      {path: '', component: TodoListComponent},
       {path: 'todo/:id', component: TodoComponent},
       //{path: '', redirectTo: 'superheroes', pathMatch: 'full'}
-      {path: '**', redirectTo: 'todos', pathMatch: 'full'}
+      {path: '**', redirectTo: ''}
     ])
   ],
   providers: [TodoService],

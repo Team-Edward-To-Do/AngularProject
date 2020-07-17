@@ -9,8 +9,7 @@ import { Todo } from '../todo';
   styleUrls: ['./todo-list.component.css']
 })
 export class TodoListComponent implements OnInit {
-  listOfTodos: string[];
-  //listOfTodos: Todo[];
+  listOfTodos: Todo[];
   todoName: string;
 
   todos = new FormGroup({
@@ -18,28 +17,23 @@ export class TodoListComponent implements OnInit {
   });
 
   constructor(private todoService: TodoService) {
-     //this.listOfTodos = todoService.getObject();
-     this.getTodosEc2();
-     console.log("TodoListComponent - constructor");
-     //console.log(this.listOfTodos);
+     this.getTodos();
   }
 
-  getTodosEc2(): void {
+  getTodos(): void {
     this.todoService.getTodos().subscribe(
       response => {
         this.listOfTodos = response;
-        console.log("response - " + response);
-        console.log("listOfTodos - " + this.listOfTodos);
       }
     );
   }
 
-  postTodoEc2(todoSub: FormGroup): void {
+  postTodo(todoSub: FormGroup): void {
     let form = JSON.stringify(todoSub.value);
     this.todoService.postTodo(form).subscribe(
       response => {
         console.log('success');
-        this.getTodosEc2();
+        this.getTodos();
       }
     );
   }
@@ -51,7 +45,7 @@ export class TodoListComponent implements OnInit {
       this.todoService.deleteTodo(todoId).subscribe(
         response => {
           console.log('success');
-          this.getTodosEc2();
+          this.getTodos();
         }
       )
     }
@@ -59,6 +53,5 @@ export class TodoListComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('init');
-    //this.getTodosEc2();
   }
 }

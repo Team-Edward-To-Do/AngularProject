@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { identifierModuleUrl } from '@angular/compiler';
 import { Todo } from '../todo';
 
 @Injectable({
@@ -13,32 +12,18 @@ export class TodoService {
 
   constructor(private httpCli: HttpClient) { 
   }
-
-  getObject(): Todo[] {
-    return [
-        {
-          completed: false,
-          createdOn: ' ',
-          id: 0,
-          title: ' '
-        }
-    ]
-  }
-
-  //getTodos(): Observable<Todo[]> {
-  getTodos(): Observable<string[]> {
+  getTodos(): Observable<Todo[]> {
     const httpHead = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Orgin': '*'
       })
     };
-    //return this.httpCli.get<Todo[]>(this.url, httpHead);
-    return this.httpCli.get<string[]>(this.url, httpHead);
+     return this.httpCli.get<Todo[]>(this.url, httpHead);
   }
 
   getTodo(todoId): Observable<Todo> {
-    this.url = this.url + '/' + todoId;
+    let tempurl = this.url + '/' + todoId;
 
     const httpHead = {
       headers: new HttpHeaders({
@@ -46,7 +31,7 @@ export class TodoService {
         'Access-Control-Allow-Orgin': '*'
       })
     };
-    return this.httpCli.get<Todo>(this.url, httpHead);
+    return this.httpCli.get<Todo>(tempurl, httpHead);
   }
 
   postTodo(todoForm): Observable<string> {
