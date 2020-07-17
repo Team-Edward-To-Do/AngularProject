@@ -14,15 +14,16 @@
                     <th>Completed:</th>
                     <th>Title:</th>
                     <th>Date:</th>
-                    <th>Delete Todo!</th>
+                    <th>Id:</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor = 'let temp of listOfTodos'>
                     <td><input type="checkbox"></td>
-                    <td>{{temp.title}}</td>
+                    <td><a [routerLink]="['/todo', temp.id]">{{temp.title}}</a></td>
+                    <!--<td>{{temp.title}}</td>-->
                     <td>{{temp.createdOn}}</td>
-                    <td><button (click)="deleteTodo(temp)">Delete This Todo!!</button></td>
+                    <td><button>{{temp.id}}</button></td>
                 </tr>
             </tbody>
         </table>

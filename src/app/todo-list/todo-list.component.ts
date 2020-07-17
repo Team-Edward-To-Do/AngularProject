@@ -15,7 +15,9 @@ export class TodoListComponent implements OnInit {
     title: new FormControl('')
   });
 
-  constructor(private todoService: TodoService) { }
+  constructor(private todoService: TodoService) { 
+    this.getTodosEc2();
+  }
 
   getTodosEc2(): void {
     this.todoService.getTodos().subscribe(
