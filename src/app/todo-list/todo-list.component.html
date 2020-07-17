@@ -25,7 +25,7 @@
                     <th>Completed:</th>
                     <th>Title:</th>
                     <th>Date:</th>
-                    <th>Id:</th>
+                    <th>Delete Todo!</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,7 +34,7 @@
                     <ng-template #notCompletedBlock><td><input type="checkbox" (click)="completeTodo(temp)"></td></ng-template>
                     <td><a [routerLink]="['/todo', temp.id]">{{temp.title}}</a></td>
                     <td>{{temp.createdOn}}</td>
-                    <td><button>{{temp.id}}</button></td>
+                    <td><button (click)="deleteTodo(temp)">Delete This Todo!!</button></td>
                 </tr>
             </tbody>
         </table>

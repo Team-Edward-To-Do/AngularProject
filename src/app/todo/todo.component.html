@@ -1,29 +1,18 @@
-<!--<p>{{currentTodo}}</p>-->
-
 <div class="container">
     <div class="col-10 offset-1">
         <div class="text-center">
-            <!--<form [formGroup]="todos">
-                <input type="text" formControlName="title">
-                <button (click)="postTodoEc2(todos)">Create Todo</button>
-            </form>-->
         </div>
     
         <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
-                       <!-- <th>Completed:</th>-->
                         <th>Title:</th>
                         <th>Date:</th>
                         <th>Id:</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!--<tr *ngFor = 'let temp of currentTodo'>
-                        <td>{{temp.title}}</td>
-                        <td>{{temp.createdOn}}</td>
-                        <td>{{temp.id}}</td>-->
                         <tr>
                             <td>{{currentTodo.title}}</td>
                             <td>{{currentTodo.createdOn}}</td>

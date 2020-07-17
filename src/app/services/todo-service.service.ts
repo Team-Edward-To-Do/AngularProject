@@ -19,18 +19,17 @@ export class TodoService {
         'Access-Control-Allow-Orgin': '*'
       })
     };
-     return this.httpCli.get<Todo[]>(this.url, httpHead);
+    return this.httpCli.get<Todo[]>(this.url, httpHead);
   }
 
   getTodo(todoId): Observable<Todo> {
-    let tempurl = this.url + '/' + todoId;
     const httpHead = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Orgin': '*'
       })
     };
-    return this.httpCli.get<Todo>(tempurl, httpHead);
+    return this.httpCli.get<Todo>(this.url + '/' + todoId, httpHead);
   }
 
   postTodo(todoForm): Observable<string> {
