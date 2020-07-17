@@ -1,3 +1,14 @@
+<div class="panel-body">
+    <div class="row">
+        <div class="col-md-2">
+            Filter By :
+        </div>
+        <div class="col-md-4">
+            <input type="text" [(ngModel)] = 'listFilter'>
+        </div>
+    </div>
+</div>
+
 <div class="container">
 <div class="col-10 offset-1">
     <div class="text-center">
@@ -18,10 +29,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor = 'let temp of listOfTodos'>
-                    <td><input type="checkbox"></td>
+                <tr *ngFor = 'let temp of filteredTodos'>
+                    <td *ngIf="temp.completed; else notCompletedBlock"><input type="checkbox" (click)="updateTodo(temp.title, temp.id, temp.createdOn)" checked></td>
+                    <ng-template #notCompletedBlock><td><input type="checkbox" (click)="completeTodo(temp)"></td></ng-template>
                     <td><a [routerLink]="['/todo', temp.id]">{{temp.title}}</a></td>
-                    <!--<td>{{temp.title}}</td>-->
                     <td>{{temp.createdOn}}</td>
                     <td><button>{{temp.id}}</button></td>
                 </tr>

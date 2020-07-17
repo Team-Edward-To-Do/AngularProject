@@ -24,7 +24,6 @@ export class TodoService {
 
   getTodo(todoId): Observable<Todo> {
     let tempurl = this.url + '/' + todoId;
-
     const httpHead = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -42,6 +41,26 @@ export class TodoService {
       })
     };
     return this.httpCli.post<string>(this.url, todoForm, httpHead);
+  }
+
+  updateTodo(todoForm): Observable<string> {
+    const httpHead = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Orgin': '*'
+      })
+    };
+    return this.httpCli.put<string>(this.url, todoForm, httpHead);
+  }
+
+  completeTodo(todoId): Observable<string> {
+    const httpHead = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Orgin': '*'
+      })
+    };
+    return this.httpCli.patch<string>(this.url + '/' + todoId, httpHead);
   }
 
   deleteTodo(todoId): Observable<string> {

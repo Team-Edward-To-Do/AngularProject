@@ -11,11 +11,13 @@ import { TodoService } from './services/todo-service.service';
 import { TodoListComponent } from './todo-list/todo-list.component';
 import { TodoComponent } from './todo/todo.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     TodoListComponent,
     TodoComponent
+
   ],
   imports: [
     BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule,

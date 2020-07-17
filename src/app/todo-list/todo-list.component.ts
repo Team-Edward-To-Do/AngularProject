@@ -11,19 +11,42 @@ import { Todo } from '../todo';
 export class TodoListComponent implements OnInit {
   listOfTodos: Todo[];
   todoName: string;
+  uncompleteTodo: Todo;
+
+  filteredTodos: Todo[];
+
+  attrListFilter = '';
+  get listFilter(): string {
+      return this.attrListFilter;
+  }
+  set listFilter(temp: string) {
+      this.attrListFilter = temp;
+      this.filteredTodos = this.attrListFilter ?
+      this.performFilter(this.attrListFilter) : this.listOfTodos;
+  }
 
   todos = new FormGroup({
-    title: new FormControl('')
+    title: new FormControl(''),
+    completed: new FormControl(''),
+    id: new FormControl('')
   });
 
+
+  performFilter(filterBy: string): Todo[] {
+    filterBy = filterBy.toLocaleLowerCase();
+    return this.listOfTodos.filter((singleTodo: Todo) =>
+    singleTodo.title.toLocaleLowerCase().indexOf(filterBy) !== -1);
+}
+
   constructor(private todoService: TodoService) {
-     this.getTodos();
+    this.getTodos();
   }
 
   getTodos(): void {
     this.todoService.getTodos().subscribe(
       response => {
         this.listOfTodos = response;
+        this.filteredTodos = this.listOfTodos;
       }
     );
   }
@@ -38,6 +61,32 @@ export class TodoListComponent implements OnInit {
     );
   }
 
+  updateTodo(title: string, id: number, createdOn: any): void {
+    this.uncompleteTodo = {
+                          title: title,
+                          completed: false,
+                          id: id,
+                          createdOn: createdOn
+    }
+    let form = JSON.stringify(this.uncompleteTodo);
+    this.todoService.updateTodo(form).subscribe(
+      response => {
+        console.log(response);
+        this.getTodos();
+      }
+    );
+  }
+
+  completeTodo(todo): void {
+    let todoId = todo.id;
+    this.todoService.completeTodo(todoId).subscribe(
+      response => {
+        console.log(response);
+        this.getTodos();
+      }
+    )
+  }
+
   deleteTodo(todo): void {
     let name = todo.title;
     if (confirm('Are you sure want to delete this todo: ' + name)) {
@@ -47,7 +96,7 @@ export class TodoListComponent implements OnInit {
           console.log('success');
           this.getTodos();
         }
-      )
+      );
     }
   }
 
