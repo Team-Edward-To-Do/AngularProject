@@ -10,8 +10,8 @@ export class TodoService {
 
   url = 'http://ec2-34-220-194-190.us-west-2.compute.amazonaws.com:8080/todos';
 
-  constructor(private httpCli: HttpClient) { }
-
+  constructor(private httpCli: HttpClient) { 
+  }
   getTodos(): Observable<Todo[]> {
     const httpHead = {
       headers: new HttpHeaders({
@@ -20,6 +20,16 @@ export class TodoService {
       })
     };
     return this.httpCli.get<Todo[]>(this.url, httpHead);
+  }
+
+  getTodo(todoId): Observable<Todo> {
+    const httpHead = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Orgin': '*'
+      })
+    };
+    return this.httpCli.get<Todo>(this.url + '/' + todoId, httpHead);
   }
 
   postTodo(todoForm): Observable<string> {

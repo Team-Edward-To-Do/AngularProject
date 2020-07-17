@@ -9,7 +9,6 @@ import { Todo } from '../todo';
   styleUrls: ['./todo-list.component.css']
 })
 export class TodoListComponent implements OnInit {
-  pageTitle = 'Todo List';
   listOfTodos: Todo[];
   todoName: string;
   uncompleteTodo: Todo;
@@ -32,13 +31,16 @@ export class TodoListComponent implements OnInit {
     id: new FormControl('')
   });
 
+
   performFilter(filterBy: string): Todo[] {
     filterBy = filterBy.toLocaleLowerCase();
     return this.listOfTodos.filter((singleTodo: Todo) =>
     singleTodo.title.toLocaleLowerCase().indexOf(filterBy) !== -1);
 }
 
-  constructor(private todoService: TodoService) { }
+  constructor(private todoService: TodoService) {
+    this.getTodos();
+  }
 
   getTodos(): void {
     this.todoService.getTodos().subscribe(
@@ -100,6 +102,5 @@ export class TodoListComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('init');
-    this.getTodos();
   }
 }
