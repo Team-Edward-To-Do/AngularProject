@@ -11,20 +11,24 @@ import { from } from 'rxjs';
   styleUrls: ['./todo.component.css']
 })
 export class TodoComponent implements OnInit {
-  currentTodo: Todo;
+  currentTodo: Todo[];
+  //currentTodo: string;
   currentId: string;
-  //listOfTodos: string;
-
   //todos = new FormGroup({
   //  title: new FormControl('')
   //});
 
-  constructor(private route: ActivatedRoute, private todoService: TodoService) { }
+  constructor(private route: ActivatedRoute, private todoService: TodoService) {
+    this.currentTodo = todoService.getObject();
+  }
 
   getTodoEc2(currentId): void {
     this.todoService.getTodo(currentId).subscribe(
       response => {
-        this.currentTodo = response;
+        this.currentTodo[0] = response;
+        //this.currentTodo = response;
+        console.log("response - " + response);
+        console.log("currentTodo - " + this.currentTodo);
       }
     );
   }
@@ -32,7 +36,6 @@ export class TodoComponent implements OnInit {
   ngOnInit(): void {
     this.currentId = this.route.snapshot.paramMap.get('id');
     this.getTodoEc2(this.currentId);
-    console.log(this.currentId);
   }
 
 }

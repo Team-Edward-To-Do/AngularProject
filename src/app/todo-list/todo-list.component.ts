@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TodoService } from '../services/todo-service.service';
+import { Todo } from '../todo';
 
 @Component({
   selector: 'app-todo-list',
@@ -9,20 +10,26 @@ import { TodoService } from '../services/todo-service.service';
 })
 export class TodoListComponent implements OnInit {
   listOfTodos: string[];
+  //listOfTodos: Todo[];
   todoName: string;
 
   todos = new FormGroup({
     title: new FormControl('')
   });
 
-  constructor(private todoService: TodoService) { 
-    this.getTodosEc2();
+  constructor(private todoService: TodoService) {
+     //this.listOfTodos = todoService.getObject();
+     this.getTodosEc2();
+     console.log("TodoListComponent - constructor");
+     //console.log(this.listOfTodos);
   }
 
   getTodosEc2(): void {
     this.todoService.getTodos().subscribe(
       response => {
         this.listOfTodos = response;
+        console.log("response - " + response);
+        console.log("listOfTodos - " + this.listOfTodos);
       }
     );
   }
@@ -52,6 +59,6 @@ export class TodoListComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('init');
-    this.getTodosEc2();
+    //this.getTodosEc2();
   }
 }

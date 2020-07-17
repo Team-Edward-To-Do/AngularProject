@@ -20,10 +20,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>{{currentTodo.title}}</td>
-                        <td>{{currentTodo.createdOn}}</td>
-                        <td>{{currentTodo.id}}</td>
+                    <tr *ngFor = 'let temp of currentTodo'>
+                        <td>{{temp.title}}</td>
+                        <td>{{temp.createdOn}}</td>
+                        <td>{{temp.id}}</td>
+                        <!--<tr>
+                            <td>{{currentTodo.title}}</td>
+                            <td>{{currentTodo.createdOn}}</td>
+                            <td>{{currentTodo.id}}</td>-->
                     </tr>
                 </tbody>
             </table>
