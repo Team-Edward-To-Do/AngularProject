@@ -16,10 +16,12 @@
                     <tr *ngIf="doUpdate; else noUpdate">
                         <td>{{currentTodo.id}}</td>
                         <td *ngIf="currentTodo.completed; else notCompletedBlock">
-                            <input type="checkbox" (click)="updateTodo(currentTodo.id,'false', todoTitle.value, currentTodo.createdOn)" checked>
+                            <input type="checkbox" (click)="updateTodo(currentTodo.id, !currentTodo.completed, todoTitle.value, currentTodo.createdOn)" checked>
                             &nbsp; {{currentTodo.completed}} 
                         </td>
-                        <ng-template #notCompletedBlock><td><input type="checkbox" (click)="completeTodo(currentTodo)"></td></ng-template>
+                        <ng-template #notCompletedBlock>
+                            <td><input type="checkbox" (click)="completeTodo(currentTodo)">&nbsp; {{currentTodo.completed}}</td>
+                        </ng-template>
                         <td><input type="text" #todoTitle value={{currentTodo.title}}></td>
                         <!--<td><input type="text" #todoCreatedOn value={{currentTodo.createdOn}}></td>-->
                         <td>{{currentTodo.createdOn}}</td>

@@ -9,7 +9,8 @@ import { Todo } from '../todo';
   styleUrls: ['./todo.component.css']
 })
 export class TodoComponent implements OnInit {
-  currentTodo = {completed: false,
+  currentTodo = {
+    completed: false,
     createdOn: 0,
     id: 0,
     title: ' '
@@ -18,9 +19,11 @@ export class TodoComponent implements OnInit {
   uncompleteTodo: Todo;
   currentId: string;
   doUpdate: boolean;
+  doSubmit : boolean;
 
   constructor(private route: ActivatedRoute, private todoService: TodoService) {
     this.doUpdate = false;
+    this.doSubmit = false;
   }
 
   getTodo(currentId): void {
@@ -32,7 +35,6 @@ export class TodoComponent implements OnInit {
   }
 
   updateTodo(id: number, completed: boolean, title: string, createdOn: any): void {
-    console.log("Completed + " + completed);
     this.uncompleteTodo = {
                           title: title,
                           completed: completed,
@@ -42,23 +44,24 @@ export class TodoComponent implements OnInit {
     let form = JSON.stringify(this.uncompleteTodo);
     this.todoService.updateTodo(form).subscribe(
       response => {
-        console.log(response);
-        this.uncompleteTodo.completed = response.completed;
-        console.log("Completed Response + " + this.uncompleteTodo.completed);
+        this.currentTodo.completed = response.completed;
+        console.log("updateTodo : completed - " + this.currentTodo.completed);
       }
     );
+    this.doSubmit = false;
   }
   
   completeTodo(todo): void {
     let todoId = todo.id;
     this.todoService.completeTodo(todoId).subscribe(
       response => {
-        console.log(response);
+        this.currentTodo.completed = response.completed;
+        console.log("completeTodo : completed - " + this.currentTodo.completed);
       }
     )
   }
 
-  update(){
+  update(): void{
     this.doUpdate = true;
   }
 
