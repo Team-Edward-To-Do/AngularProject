@@ -4,7 +4,7 @@
             Filter By :
         </div>
         <div class="col-md-4">
-            <input type="text" [(ngModel)] = 'listFilter'>
+            <input type="text" [(ngModel)] = 'listFilter' placeholder="Search your todos!">
         </div>
     </div>
 </div>
@@ -13,7 +13,7 @@
 <div class="col-10 offset-1">
     <div class="text-center">
         <form [formGroup]="todos">
-            <input type="text" formControlName="title">
+            <input type="text" formControlName="title" placeholder="What needs to be done?">
             <button (click)="postTodo(todos)">Create Todo</button>
         </form>
     </div>
@@ -32,7 +32,7 @@
                 <tr *ngFor = 'let temp of filteredTodos'>
                     <td *ngIf="temp.completed; else notCompletedBlock"><input type="checkbox" (click)="updateTodo(temp.title, temp.id, temp.createdOn)" checked></td>
                     <ng-template #notCompletedBlock><td><input type="checkbox" (click)="completeTodo(temp)"></td></ng-template>
-                    <td><a [routerLink]="['/todo', temp.id]">{{temp.title}}</a></td>
+                    <td><a [routerLink]="['/todo', temp.id]" (click)="emitActiveTab('todoInfo')">{{temp.title}}</a></td>
                     <td>{{temp.createdOn}}</td>
                     <td><button (click)="deleteTodo(temp)">Delete This Todo!!</button></td>
                 </tr>

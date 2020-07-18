@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { TodoService } from '../services/todo-service.service';
+import { SharedService } from '../services/shared.service';
+import { Todo } from '../todo';
 
 @Component({
   selector: 'app-todo',
@@ -8,14 +11,18 @@ import { TodoService } from '../services/todo-service.service';
   styleUrls: ['./todo.component.css']
 })
 export class TodoComponent implements OnInit {
-  currentTodo = {completed: false,
-    createdOn: 0,
-    id: 0,
-    title: ' '
-  };
-
+  currentTodo: Todo;
+  currentTodoSelected = false;
   currentId: string;
-  constructor(private route: ActivatedRoute, private todoService: TodoService) {
+
+  constructor(private route: ActivatedRoute, private todoService: TodoService, private sharedService: SharedService) {
+    this.currentId = this.route.snapshot.paramMap.get('id');
+    if (this.currentId !== 'noTodo') {
+      this.getTodo(this.currentId);
+      this.currentTodoSelected = true;
+    } else {
+      this.currentTodoSelected = false;
+    }
   }
 
   getTodo(currentId): void {
@@ -26,8 +33,10 @@ export class TodoComponent implements OnInit {
     );
   }
 
+  emitActiveTab(activeTab: string): void {
+    this.sharedService.emitChange(activeTab);
+  }
+
   ngOnInit(): void {
-    this.currentId = this.route.snapshot.paramMap.get('id');
-    this.getTodo(this.currentId);
   }
 }
