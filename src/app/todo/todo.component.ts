@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TodoService } from '../services/todo-service.service';
+import { Todo } from '../todo';
 
 @Component({
   selector: 'app-todo',
@@ -14,8 +15,13 @@ export class TodoComponent implements OnInit {
     title: ' '
   };
 
+  uncompleteTodo: Todo;
   currentId: string;
+  doUpdate: boolean;
+
   constructor(private route: ActivatedRoute, private todoService: TodoService) {
+    this.doUpdate = false;
+    console.log(this.doUpdate);
   }
 
   getTodo(currentId): void {
@@ -24,6 +30,35 @@ export class TodoComponent implements OnInit {
         this.currentTodo = response;
       }
     );
+  }
+  updateTodo(title: string, id: number, createdOn: any): void {
+    this.uncompleteTodo = {
+                          title: title,
+                          completed: false,
+                          id: id,
+                          createdOn: createdOn
+    }
+    let form = JSON.stringify(this.uncompleteTodo);
+    this.todoService.updateTodo(form).subscribe(
+      response => {
+        console.log(response);
+       // this.getTodos();
+      }
+    );
+  }
+  completeTodo(todo): void {
+    let todoId = todo.id;
+    this.todoService.completeTodo(todoId).subscribe(
+      response => {
+        console.log(response);
+        //this.getTodos();
+      }
+    )
+  }
+
+  update(){
+    this.doUpdate = true;
+    console.log(this.doUpdate);
   }
 
   ngOnInit(): void {

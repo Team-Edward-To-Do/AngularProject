@@ -1,25 +1,48 @@
 <div class="container">
     <div class="col-10 offset-1">
-        <div class="text-center">
-        </div>
+        <div class="text-center"></div>
     
         <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Title:</th>
-                        <th>Date:</th>
-                        <th>Id:</th>
+                        <th>Id</th>
+                        <th>Completed</th>
+                        <th>Title</th>
+                        <th>Date</th>
                     </tr>
                 </thead>
                 <tbody>
-                        <tr>
-                            <td>{{currentTodo.title}}</td>
-                            <td>{{currentTodo.createdOn}}</td>
-                            <td>{{currentTodo.id}}</td>
-                    </tr>
+                    <tr>
+                        <td>{{currentTodo.id}}</td>
+                        <td *ngIf="currentTodo.completed; else notCompletedBlock">
+                            <input type="checkbox" (click)="updateTodo(temp.title, temp.id, temp.createdOn)" checked>
+                            &nbsp; {{currentTodo.completed}} 
+                        </td>
+                    
+                        <ng-template #notCompletedBlock>
+                            <td><input type="checkbox" (click)="completeTodo(temp)">&nbsp; {{currentTodo.completed}}</td>
+                        </ng-template>
+                            
+                        <td *ngIf="doUpdate; else noUpdate">
+                            <input type="text" value={{currentTodo.title}}>&nbsp;
+                            <input type="text" value={{currentTodo.createdOn}}>
+                        </td>
+                            
+                        <ng-template #noUpdate>
+                            <td><input type="text" value={{currentTodo.title}} disabled></td>
+                            <td><input type="text" value={{currentTodo.createdOn}} disabled></td>
+                        </ng-template>
+
+                        <td><button (click)="update()">Update</button></td>
+                            
+                        <td *ngIf="doUpdate">
+                            <button (click)="completeTodo(updateTodo(currentTodo.title, currentTodo.id, currentTodo.createdOn))">Submit</button>
+                        </td>
+                            
+                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    </div>
+</div>
