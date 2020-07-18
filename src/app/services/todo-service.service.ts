@@ -42,14 +42,14 @@ export class TodoService {
     return this.httpCli.post<string>(this.url, todoForm, httpHead);
   }
 
-  updateTodo(todoForm): Observable<string> {
+  updateTodo(todoForm): Observable<Todo> {
     const httpHead = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Orgin': '*'
       })
     };
-    return this.httpCli.put<string>(this.url, todoForm, httpHead);
+    return this.httpCli.put<Todo>(this.url, todoForm, httpHead);
   }
 
   completeTodo(todoId): Observable<string> {

@@ -21,7 +21,6 @@ export class TodoComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private todoService: TodoService) {
     this.doUpdate = false;
-    console.log(this.doUpdate);
   }
 
   getTodo(currentId): void {
@@ -31,34 +30,36 @@ export class TodoComponent implements OnInit {
       }
     );
   }
-  updateTodo(title: string, id: number, createdOn: any): void {
+
+  updateTodo(id: number, completed: boolean, title: string, createdOn: any): void {
+    console.log("Completed + " + completed);
     this.uncompleteTodo = {
                           title: title,
-                          completed: false,
+                          completed: completed,
                           id: id,
                           createdOn: createdOn
-    }
+    };
     let form = JSON.stringify(this.uncompleteTodo);
     this.todoService.updateTodo(form).subscribe(
       response => {
         console.log(response);
-       // this.getTodos();
+        this.uncompleteTodo.completed = response.completed;
+        console.log("Completed Response + " + this.uncompleteTodo.completed);
       }
     );
   }
+  
   completeTodo(todo): void {
     let todoId = todo.id;
     this.todoService.completeTodo(todoId).subscribe(
       response => {
         console.log(response);
-        //this.getTodos();
       }
     )
   }
 
   update(){
     this.doUpdate = true;
-    console.log(this.doUpdate);
   }
 
   ngOnInit(): void {
