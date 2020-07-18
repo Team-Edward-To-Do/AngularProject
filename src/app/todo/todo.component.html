@@ -13,34 +13,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr *ngIf="doUpdate; else noUpdate">
                         <td>{{currentTodo.id}}</td>
                         <td *ngIf="currentTodo.completed; else notCompletedBlock">
-                            <input type="checkbox" (click)="updateTodo(temp.title, temp.id, temp.createdOn)" checked>
+                            <input type="checkbox" (click)="updateTodo(currentTodo.title, currentTodo.id, currentTodo.createdOn)" checked>
                             &nbsp; {{currentTodo.completed}} 
                         </td>
-                    
-                        <ng-template #notCompletedBlock>
-                            <td><input type="checkbox" (click)="completeTodo(temp)">&nbsp; {{currentTodo.completed}}</td>
-                        </ng-template>
-                            
-                        <td *ngIf="doUpdate; else noUpdate">
-                            <input type="text" value={{currentTodo.title}}>&nbsp;
-                            <input type="text" value={{currentTodo.createdOn}}>
-                        </td>
-                            
-                        <ng-template #noUpdate>
-                            <td><input type="text" value={{currentTodo.title}} disabled></td>
-                            <td><input type="text" value={{currentTodo.createdOn}} disabled></td>
-                        </ng-template>
-
-                        <td><button (click)="update()">Update</button></td>
-                            
-                        <td *ngIf="doUpdate">
+                        <ng-template #notCompletedBlock><td><input type="checkbox" (click)="completeTodo(currentTodo)"></td></ng-template>
+                        <td><input type="text" value={{currentTodo.title}}></td>
+                        <td><input type="text" value={{currentTodo.createdOn}}></td>
+                        <td>
                             <button (click)="completeTodo(updateTodo(currentTodo.title, currentTodo.id, currentTodo.createdOn))">Submit</button>
                         </td>
+                    </tr>
+
+                    <ng-template #noUpdate>
+                        <tr>
+                            <td>{{currentTodo.id}}</td>
+                            <td *ngIf="currentTodo.completed; else notCompletedBlock">
+                                <input type="checkbox" (click)="updateTodo(currentTodo.title, currentTodo.id, currentTodo.createdOn)" checked>
+                                &nbsp; {{currentTodo.completed}} 
+                            </td>
+                            <ng-template #notCompletedBlock><td><input type="checkbox" (click)="completeTodo(currentTodo)"></td></ng-template>
+                            <td><input type="text" value={{currentTodo.title}} disabled></td>
+                            <td><input type="text" value={{currentTodo.createdOn}} disabled></td>
+                            <td><button (click)="update()">Update</button></td>
+                        </tr>
+                    </ng-template>
                             
-                     </tr>
                 </tbody>
             </table>
         </div>
