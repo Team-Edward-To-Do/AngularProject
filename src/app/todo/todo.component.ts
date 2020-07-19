@@ -18,14 +18,13 @@ export class TodoComponent implements OnInit {
 
   uncompleteTodo: Todo;
   currentId: string;
-  doUpdate: boolean;
-  doSubmit : boolean;
+  doUpdate: boolean; // Whether to do updates or not. true - update, false - no update
 
   constructor(private route: ActivatedRoute, private todoService: TodoService) {
     this.doUpdate = false;
-    this.doSubmit = false;
   }
 
+  // gets a Todo by it's Id
   getTodo(currentId): void {
     this.todoService.getTodo(currentId).subscribe(
       response => {
@@ -34,7 +33,8 @@ export class TodoComponent implements OnInit {
     );
   }
 
-  updateTodo(id: number, completed: boolean, title: string, createdOn: any): void {
+  // Change completed state of a Todo to false and update the Todo.
+  updateTodo1(id: number, completed: boolean, title: string, createdOn: any): void {
     this.uncompleteTodo = {
                           title: title,
                           completed: completed,
@@ -44,25 +44,30 @@ export class TodoComponent implements OnInit {
     let form = JSON.stringify(this.uncompleteTodo);
     this.todoService.updateTodo(form).subscribe(
       response => {
-        this.currentTodo.completed = response.completed;
-        console.log("updateTodo : completed - " + this.currentTodo.completed);
+        this.currentTodo = response;
       }
     );
-    this.doSubmit = false;
   }
-  
+
+  // Update Todo and set doUpdate to false for disabling Submit on the view.
+  updateTodo2(id: number, completed: boolean, title: string, createdOn: any): void {
+    this.doUpdate = false; // Can't do updates with set to false;
+    this.updateTodo1(id, completed, title, createdOn);
+  }
+
+  // Mark the Todo as completed.
   completeTodo(todo): void {
     let todoId = todo.id;
     this.todoService.completeTodo(todoId).subscribe(
       response => {
         this.currentTodo.completed = response.completed;
-        console.log("completeTodo : completed - " + this.currentTodo.completed);
       }
     )
   }
 
+  // If the Update button is clicked
   update(): void{
-    this.doUpdate = true;
+    this.doUpdate = true; // set Update on
   }
 
   ngOnInit(): void {
