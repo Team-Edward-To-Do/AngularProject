@@ -1,9 +1,9 @@
 <ul class="nav nav-tabs">
-    <li class="active"><a routerLink="">Home</a></li>
-    <li><a routerLink="/todo">ToDo Info</a></li>
-    <li><a routerLink="/welcome">About Us</a></li>
-  </ul>
-  <div class="container">
-    <router-outlet></router-outlet>
-  </div>
+  <li class="active" [ngClass]="{ 'active':activeTab==='home'}" (click)="setActiveTab('home')"><a routerLink="">Home</a></li>
+  <li [ngClass]="{ 'active':activeTab==='todoInfo'}" (click)="setActiveTab('todoInfo')"><a routerLink="/todo/noTodo">ToDo Info</a></li>
+  <li [ngClass]="{ 'active':activeTab==='aboutUs'}" (click)="setActiveTab('aboutUs')"><a routerLink="/aboutUs">About Us</a></li>
+</ul>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
 

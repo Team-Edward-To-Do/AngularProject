@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 import { Todo } from '../todo';
 
 @Injectable({
@@ -10,8 +11,8 @@ export class TodoService {
 
   url = 'http://ec2-34-220-194-190.us-west-2.compute.amazonaws.com:8080/todos';
 
-  constructor(private httpCli: HttpClient) { 
-  }
+  constructor(private httpCli: HttpClient) { }
+
   getTodos(): Observable<Todo[]> {
     const httpHead = {
       headers: new HttpHeaders({

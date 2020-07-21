@@ -1,18 +1,27 @@
-<div class="container">
-    <div class="col-10 offset-1">
-        <div class="text-center"></div>
-    
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
+<div *ngIf="currentTodoSelected === false; else todoBlock">
+    <div class="text-center">
+        <h2>You currently do not have Todo slected. Click <a [routerLink]="['']" (click)="emitActiveTab('home')">here</a> and select a Todo from the list.</h2>
+    </div>
+</div>
+
+<ng-template #todoBlock>    
+    <div class="container">
+        <div class="col-10 offset-1">
+            <div class="text-center">
+                <h2>Update your Todo here!</h2>
+            </div>
+        
+            <div *ngIf="currentTodo !== undefined" class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
                         <th>Id</th>
                         <th>Completed</th>
                         <th>Title</th>
                         <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
+                        </tr>
+                    </thead>
+                    <tbody>
                     <tr *ngIf="doUpdate; else noUpdate">
                         <td>{{currentTodo.id}}</td>
                         <td *ngIf="currentTodo.completed; else notCompletedBlock">
@@ -45,7 +54,6 @@
                             <td><button (click)="update()">Update</button></td>
                         </tr>
                     </ng-template>
-                            
                 </tbody>
             </table>
         </div>

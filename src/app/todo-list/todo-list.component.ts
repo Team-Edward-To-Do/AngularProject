@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TodoService } from '../services/todo-service.service';
+import { SharedService } from '../services/shared.service';
 import { Todo } from '../todo';
+
 
 @Component({
   selector: 'app-todo-list',
@@ -10,36 +12,36 @@ import { Todo } from '../todo';
 })
 export class TodoListComponent implements OnInit {
   listOfTodos: Todo[];
+  filteredTodos: Todo[];
   todoName: string;
   uncompleteTodo: Todo;
-
-  filteredTodos: Todo[];
-
   attrListFilter = '';
-  get listFilter(): string {
-      return this.attrListFilter;
-  }
-  set listFilter(temp: string) {
-      this.attrListFilter = temp;
-      this.filteredTodos = this.attrListFilter ?
-      this.performFilter(this.attrListFilter) : this.listOfTodos;
-  }
 
   todos = new FormGroup({
     title: new FormControl(''),
-    completed: new FormControl(''),
-    id: new FormControl('')
   });
 
+  constructor(private todoService: TodoService, private sharedService: SharedService) {
+    this.getTodos();
+  }
 
-  performFilter(filterBy: string): Todo[] {
-    filterBy = filterBy.toLocaleLowerCase();
-    return this.listOfTodos.filter((singleTodo: Todo) =>
-    singleTodo.title.toLocaleLowerCase().indexOf(filterBy) !== -1);
+  get listFilter(): string {
+    return this.attrListFilter;
+}
+set listFilter(temp: string) {
+    this.attrListFilter = temp;
+    this.filteredTodos = this.attrListFilter ?
+    this.performFilter(this.attrListFilter) : this.listOfTodos;
 }
 
-  constructor(private todoService: TodoService) {
-    this.getTodos();
+performFilter(filterBy: string): Todo[] {
+  filterBy = filterBy.toLocaleLowerCase();
+  return this.listOfTodos.filter((singleTodo: Todo) =>
+  singleTodo.title.toLocaleLowerCase().indexOf(filterBy) !== -1);
+}
+
+  emitActiveTab(activeTab: string): void {
+    this.sharedService.emitChange('todoInfo');
   }
 
   getTodos(): void {
@@ -68,7 +70,7 @@ export class TodoListComponent implements OnInit {
                           id: id,
                           createdOn: createdOn
     }
-    let form = JSON.stringify(this.uncompleteTodo);
+    const form = JSON.stringify(this.uncompleteTodo);
     this.todoService.updateTodo(form).subscribe(
       response => {
         console.log(response);
@@ -78,7 +80,7 @@ export class TodoListComponent implements OnInit {
   }
 
   completeTodo(todo): void {
-    let todoId = todo.id;
+    const todoId = todo.id;
     this.todoService.completeTodo(todoId).subscribe(
       response => {
         console.log(response);
@@ -88,9 +90,9 @@ export class TodoListComponent implements OnInit {
   }
 
   deleteTodo(todo): void {
-    let name = todo.title;
+    const name = todo.title;
     if (confirm('Are you sure want to delete this todo: ' + name)) {
-      let todoId = todo.id;
+      const todoId = todo.id;
       this.todoService.deleteTodo(todoId).subscribe(
         response => {
           console.log('success');
@@ -101,6 +103,5 @@ export class TodoListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('init');
   }
 }

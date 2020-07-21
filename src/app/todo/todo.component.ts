@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { TodoService } from '../services/todo-service.service';
+import { SharedService } from '../services/shared.service';
 import { Todo } from '../todo';
 
 @Component({
@@ -9,18 +11,20 @@ import { Todo } from '../todo';
   styleUrls: ['./todo.component.css']
 })
 export class TodoComponent implements OnInit {
-  currentTodo = {
-    completed: false,
-    createdOn: 0,
-    id: 0,
-    title: ' '
-  };
-
-  uncompleteTodo: Todo;
+  currentTodo: Todo;
+  currentTodoSelected = false;
   currentId: string;
+  uncompleteTodo: Todo;
   doUpdate: boolean; // Whether to do updates or not. true - update, false - no update
 
-  constructor(private route: ActivatedRoute, private todoService: TodoService) {
+  constructor(private route: ActivatedRoute, private todoService: TodoService, private sharedService: SharedService) {
+    this.currentId = this.route.snapshot.paramMap.get('id');
+    if (this.currentId !== 'noTodo') {
+      this.getTodo(this.currentId);
+      this.currentTodoSelected = true;
+    } else {
+      this.currentTodoSelected = false;
+    }
     this.doUpdate = false;
   }
 
@@ -33,6 +37,10 @@ export class TodoComponent implements OnInit {
     );
   }
 
+  emitActiveTab(activeTab: string): void {
+    this.sharedService.emitChange(activeTab);
+  }
+  
   // Change completed state of a Todo to false and update the Todo.
   updateTodo1(id: number, completed: boolean, title: string, createdOn: any): void {
     this.uncompleteTodo = {
@@ -71,7 +79,5 @@ export class TodoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.currentId = this.route.snapshot.paramMap.get('id');
-    this.getTodo(this.currentId);
   }
 }
