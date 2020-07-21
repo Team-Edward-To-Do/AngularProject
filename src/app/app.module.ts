@@ -11,13 +11,17 @@ import { TodoComponent } from './todo/todo.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { TodoService } from './services/todo-service.service';
 import { SharedService } from './services/shared.service';
+import { TodoNamePipe } from './pipes/todo-name.pipe';
+import { TodoCategoryPipe } from './pipes/todo-category.pipe';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoListComponent,
-    TodoComponent
+    TodoComponent,
+    TodoNamePipe,
+    TodoCategoryPipe
   ],
   imports: [
     BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule,
