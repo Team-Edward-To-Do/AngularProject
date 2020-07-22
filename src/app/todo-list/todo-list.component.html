@@ -1,29 +1,28 @@
-<div class="panel-body">
-    <div class="row">
-        <div class="col-md-2">
-            Filter By :
-        </div>
-        <div class="col-md-4">
-            <input type="text" [(ngModel)] = 'listFilter' placeholder="Search your todos!">
+<div class='panel panel-primary'>
+    <div class="panel-heading">
+        <div class="text-center" >
+            <form [formGroup]="todos">
+                <input class="input-box" type="text" [(ngModel)]="createName" [ngModelOptions]="{standalone: true}" placeholder="What needs to be done?">
+                <select class="input-box" type="text" [(ngModel)]="createCategory" [ngModelOptions]="{standalone: true}">
+                    <option value="General">General</option>
+                    <option value="Personal">Personal</option>
+                    <option value="School">School</option>
+                    <option value="Work">Work</option>
+                </select>
+                <button type="button" class="btn btn-primary" (click)="postTodo(todos)">Create Todo</button>
+            </form>  
+            <br>
+            <div class="row">
+                    Filter By :
+                    <input class="input-box" type="text" [(ngModel)] = 'listFilter' placeholder="Search your todos!">
+            </div>
         </div>
     </div>
 </div>
 
 <div class="container">
 <div class="col-10 offset-1">
-    <div class="text-center">
-        <form [formGroup]="todos">
-            <input type="text" [(ngModel)]="createName" [ngModelOptions]="{standalone: true}" placeholder="What needs to be done?">
-            <select type="text" [(ngModel)]="createCategory" [ngModelOptions]="{standalone: true}">
-                <option value="General">General</option>
-                <option value="Personal">Personal</option>
-                <option value="School">School</option>
-                <option value="Work">Work</option>
-            </select>
-            <button (click)="postTodo(todos)">Create Todo</button>
-        </form>
-    </div>
-
+    
     <div class="table-responsive">
         <table class="table">
             <thead>
@@ -40,7 +39,7 @@
                     <ng-template #notCompletedBlock><td><input type="checkbox" (click)="completeTodo(temp)"></td></ng-template>
                     <td><a [routerLink]="['/todo', temp.id]" (click)="emitActiveTab('todoInfo')">{{temp.title | todoName}}</a></td>
                     <td>{{temp.title | todoCategory}}</td>
-                    <td><button (click)="deleteTodo(temp)">Delete This Todo!!</button></td>
+                    <td><input id="delete-img" type="image" src="../../assets/delete.png" (click)="deleteTodo(temp)"></td>
                 </tr>
             </tbody>
         </table>

@@ -7,8 +7,12 @@
 <ng-template #todoBlock>    
     <div class="container">
         <div class="col-10 offset-1">
-            <div class="text-center">
-                <h2>Update your Todo here!</h2>
+            <div class='panel panel-primary'>
+                <div class="panel-heading">
+                    <div class="text-center">
+                        <h2>Update your Todo here!</h2>
+                    </div>
+                </div>
             </div>
         
             <div *ngIf="currentTodo !== undefined" class="table-responsive">
@@ -33,7 +37,7 @@
                                 &nbsp; {{currentTodo.completed}}
                             </td>
                         </ng-template>
-                        <td><input type="text" #todoTitle value={{currentTodo.title}}></td>
+                        <td><input class="input-box" type="text" #todoTitle value={{currentTodo.title}}></td>
                         <td>{{currentTodo.createdOn}}</td>
                         <td>
                             <button (click)="updateTodo2(currentTodo.id, currentTodo.completed, todoTitle.value, currentTodo.createdOn)">Submit</button>
@@ -49,7 +53,7 @@
                                     <input type="checkbox" (click)="completeTodo(currentTodo)">
                                 </td>
                             </ng-template>
-                            <td><input type="text" value={{currentTodo.title}} disabled></td>
+                            <td>{{currentTodo.title | todoName}}</td>
                             <td>{{currentTodo.createdOn}}</td>
                             <td><button (click)="update()">Update</button></td>
                         </tr>

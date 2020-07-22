@@ -1,0 +1,12 @@
+.input-box {
+    height: 30px;
+    border-radius: 3px;
+}
+#delete-img {
+    height: 20px;
+    margin-left: 20px;
+}
+
+option {
+    color: black;
+}
