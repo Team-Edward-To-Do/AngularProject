@@ -38,13 +38,21 @@ export class TodoComponent implements OnInit {
     this.attrName = temp;
   }
 
+  get updateCategory(): string {
+    return this.attrCategory;
+  }
+
+  set updateCategory(temp: string) {
+    this.attrCategory = temp;
+  }
+
   // gets a Todo by it's Id
   getTodo(currentId): void {
     this.todoService.getTodo(currentId).subscribe(
       response => {
         this.currentTodo = response;
         this.attrName = this.getName(this.currentTodo.title);
-        this.attrCategory = this.getDelineatorPlusCategory(this.currentTodo.title);
+        this.attrCategory = this.getCategory(this.currentTodo.title);
       }
     );
   }
@@ -54,8 +62,9 @@ export class TodoComponent implements OnInit {
   }
 
   // Change completed state of a Todo to false and update the Todo.
-  updateTodo1(id: number, completed: boolean, name: string, createdOn: any): void {
-    const title = name + this.attrCategory;
+  updateNameAndCategory(id: number, completed: boolean, name: string, category: string, createdOn: any): void {
+    this.doUpdate = false;
+    const title = name + '&*(' + category;
     this.uncompleteTodo = {
                           title: title,
                           completed: completed,
@@ -71,9 +80,20 @@ export class TodoComponent implements OnInit {
   }
 
   // Update Todo and set doUpdate to false for disabling Submit on the view.
-  updateTodo2(id: number, completed: boolean, title: string, createdOn: any): void {
+  updateCompletedStatus(id: number, completed: boolean, title: string, createdOn: any): void {
     this.doUpdate = false; // Can't do updates with set to false;
-    this.updateTodo1(id, completed, title, createdOn);
+    this.uncompleteTodo = {
+                          title: title,
+                          completed: completed,
+                          id: id,
+                          createdOn: createdOn
+    };
+    const form = JSON.stringify(this.uncompleteTodo);
+    this.todoService.updateTodo(form).subscribe(
+      response => {
+        this.currentTodo = response;
+      }
+    );
   }
 
   // Mark the Todo as completed.
@@ -100,10 +120,10 @@ export class TodoComponent implements OnInit {
     }
   }
 
-  getDelineatorPlusCategory(title: string): string {
+  getCategory(title: string): string {
     const startOfDelineator = title.indexOf('&*(');
     if (startOfDelineator !== -1 && title.substring(startOfDelineator).length >= 4) {
-        return title.substring(startOfDelineator);
+        return title.substring(startOfDelineator + 3);
     } else {
         return 'General';
     }

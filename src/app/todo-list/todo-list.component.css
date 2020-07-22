@@ -11,3 +11,19 @@
 option {
     color: black;
 }
+
+.General {
+    color: black;
+}
+
+.School {
+    color: hotpink;
+}
+
+.Work {
+    color: #02a823;
+}
+
+.Personal {
+    color: #fc5a03;
+}
