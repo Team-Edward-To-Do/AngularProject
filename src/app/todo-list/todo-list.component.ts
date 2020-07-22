@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TodoService } from '../services/todo-service.service';
 import { SharedService } from '../services/shared.service';
-import { Todo } from '../todo';
+import { ITodo } from '../todo';
 
 
 @Component({
@@ -11,10 +11,10 @@ import { Todo } from '../todo';
   styleUrls: ['./todo-list.component.css']
 })
 export class TodoListComponent implements OnInit {
-  listOfTodos: Todo[];
-  filteredTodos: Todo[];
+  listOfTodos: ITodo[];
+  filteredTodos: ITodo[];
   todoName: string;
-  uncompleteTodo: Todo;
+  uncompleteTodo: ITodo;
   attrListFilter = '';
 
   attrName = '';
@@ -56,14 +56,32 @@ export class TodoListComponent implements OnInit {
     this.performFilter(this.attrListFilter) : this.listOfTodos;
   }
 
-  performFilter(filterBy: string): Todo[] {
+  categoryColor(todo: ITodo): string {
+    const startOfDelineator = todo.title.indexOf('&*(');
+    if (startOfDelineator !== -1 && todo.title.substring(startOfDelineator).length >= 4) {
+      return todo.title.substring(startOfDelineator + 3);
+    } else {
+      return 'General';
+    }
+  }
+
+  performFilter(filterBy: string): ITodo[] {
     filterBy = filterBy.toLocaleLowerCase();
-    return this.listOfTodos.filter((singleTodo: Todo) =>
+    return this.listOfTodos.filter((singleTodo: ITodo) =>
     singleTodo.title.toLocaleLowerCase().indexOf(filterBy) !== -1);
   }
 
   emitActiveTab(activeTab: string): void {
     this.sharedService.emitChange('todoInfo');
+  }
+
+  getName(title: string): string {
+    const startOfDelineator = title.indexOf('&*(');
+    if (startOfDelineator !== -1) {
+        return title.substring(0, startOfDelineator);
+    } else {
+        return title;
+    }
   }
 
   getTodos(): void {
@@ -82,6 +100,8 @@ export class TodoListComponent implements OnInit {
       response => {
         console.log('success');
         this.getTodos();
+        this.attrName = '';
+        this.attrCategory = '';
       }
     );
   }
@@ -113,7 +133,7 @@ export class TodoListComponent implements OnInit {
   }
 
   deleteTodo(todo): void {
-    const name = todo.title;
+    const name = this.getName(todo.title);
     if (confirm('Are you sure want to delete this todo: ' + name)) {
       const todoId = todo.id;
       this.todoService.deleteTodo(todoId).subscribe(

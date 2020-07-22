@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { TodoService } from '../services/todo-service.service';
 import { SharedService } from '../services/shared.service';
-import { Todo } from '../todo';
+import { ITodo } from '../todo';
 
 @Component({
   selector: 'app-todo',
@@ -11,11 +11,13 @@ import { Todo } from '../todo';
   styleUrls: ['./todo.component.css']
 })
 export class TodoComponent implements OnInit {
-  currentTodo: Todo;
+  currentTodo: ITodo;
   currentTodoSelected = false;
   currentId: string;
-  uncompleteTodo: Todo;
+  uncompleteTodo: ITodo;
   doUpdate: boolean; // Whether to do updates or not. true - update, false - no update
+  attrName: string;
+  attrCategory: string;
 
   constructor(private route: ActivatedRoute, private todoService: TodoService, private sharedService: SharedService) {
     this.currentId = this.route.snapshot.paramMap.get('id');
@@ -28,11 +30,29 @@ export class TodoComponent implements OnInit {
     this.doUpdate = false;
   }
 
+  get updateName(): string {
+    return this.attrName;
+  }
+
+  set updateName(temp: string) {
+    this.attrName = temp;
+  }
+
+  get updateCategory(): string {
+    return this.attrCategory;
+  }
+
+  set updateCategory(temp: string) {
+    this.attrCategory = temp;
+  }
+
   // gets a Todo by it's Id
   getTodo(currentId): void {
     this.todoService.getTodo(currentId).subscribe(
       response => {
         this.currentTodo = response;
+        this.attrName = this.getName(this.currentTodo.title);
+        this.attrCategory = this.getCategory(this.currentTodo.title);
       }
     );
   }
@@ -42,7 +62,9 @@ export class TodoComponent implements OnInit {
   }
 
   // Change completed state of a Todo to false and update the Todo.
-  updateTodo1(id: number, completed: boolean, title: string, createdOn: any): void {
+  updateNameAndCategory(id: number, completed: boolean, name: string, category: string, createdOn: any): void {
+    this.doUpdate = false;
+    const title = name + '&*(' + category;
     this.uncompleteTodo = {
                           title: title,
                           completed: completed,
@@ -58,9 +80,20 @@ export class TodoComponent implements OnInit {
   }
 
   // Update Todo and set doUpdate to false for disabling Submit on the view.
-  updateTodo2(id: number, completed: boolean, title: string, createdOn: any): void {
+  updateCompletedStatus(id: number, completed: boolean, title: string, createdOn: any): void {
     this.doUpdate = false; // Can't do updates with set to false;
-    this.updateTodo1(id, completed, title, createdOn);
+    this.uncompleteTodo = {
+                          title: title,
+                          completed: completed,
+                          id: id,
+                          createdOn: createdOn
+    };
+    const form = JSON.stringify(this.uncompleteTodo);
+    this.todoService.updateTodo(form).subscribe(
+      response => {
+        this.currentTodo = response;
+      }
+    );
   }
 
   // Mark the Todo as completed.
@@ -76,6 +109,24 @@ export class TodoComponent implements OnInit {
   // If the Update button is clicked
   update(): void{
     this.doUpdate = true; // set Update on
+  }
+
+  getName(title: string): string {
+    const startOfDelineator = title.indexOf('&*(');
+    if (startOfDelineator !== -1) {
+        return title.substring(0, startOfDelineator);
+    } else {
+        return title;
+    }
+  }
+
+  getCategory(title: string): string {
+    const startOfDelineator = title.indexOf('&*(');
+    if (startOfDelineator !== -1 && title.substring(startOfDelineator).length >= 4) {
+        return title.substring(startOfDelineator + 3);
+    } else {
+        return 'General';
+    }
   }
 
   ngOnInit(): void {

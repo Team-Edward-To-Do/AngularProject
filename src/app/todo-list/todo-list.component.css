@@ -1,6 +1,7 @@
 .input-box {
     height: 30px;
     border-radius: 3px;
+    color: black;
 }
 #delete-img {
     height: 20px;
@@ -9,4 +10,20 @@
 
 option {
     color: black;
+}
+
+.General {
+    color: black;
+}
+
+.School {
+    color: hotpink;
+}
+
+.Work {
+    color: #02a823;
+}
+
+.Personal {
+    color: #fc5a03;
 }
