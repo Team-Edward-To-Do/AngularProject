@@ -22,6 +22,7 @@
                         <th>Id</th>
                         <th>Completed</th>
                         <th>Title</th>
+                        <th>Category</th>
                         <th>Date</th>
                         </tr>
                     </thead>
@@ -29,7 +30,7 @@
                     <tr *ngIf="doUpdate; else noUpdate">
                         <td>{{currentTodo.id}}</td>
                         <td *ngIf="currentTodo.completed; else notCompletedBlock">
-                            <input type="checkbox" (click)="updateTodo1(currentTodo.id, !currentTodo.completed, todoTitle.value, currentTodo.createdOn)" checked>
+                            <input type="checkbox" (click)="updateCompletedStatus(currentTodo.id, !currentTodo.completed, todoTitle.value, currentTodo.createdOn)" checked>
                             &nbsp; {{currentTodo.completed}} 
                         </td>
                         <ng-template #notCompletedBlock>
@@ -37,10 +38,18 @@
                                 &nbsp; {{currentTodo.completed}}
                             </td>
                         </ng-template>
-                        <td><input class="input-box" type="text" #todoTitle value={{currentTodo.title}}></td>
+                        <td><input class="input-box" type="text" #todoName [(ngModel)]="updateName"></td>
+                        <td> <!-- <input class="input-box" type="text" #todoCategory [(ngModel)]="updateCategory"> -->
+                            <select class="input-box" type="text" #todoCategory [(ngModel)]="createCategory">
+                                <option value="General">General</option>
+                                <option value="Personal">Personal</option>
+                                <option value="School">School</option>
+                                <option value="Work">Work</option>
+                            </select>
+                        </td>
                         <td>{{currentTodo.createdOn}}</td>
                         <td>
-                            <button (click)="updateTodo2(currentTodo.id, currentTodo.completed, todoTitle.value, currentTodo.createdOn)">Submit</button>
+                            <button (click)="updateNameAndCategory(currentTodo.id, currentTodo.completed, todoName.value, todoCategory.value, currentTodo.createdOn)">Submit</button>
                         </td>
                     </tr>
 
@@ -54,6 +63,7 @@
                                 </td>
                             </ng-template>
                             <td>{{currentTodo.title | todoName}}</td>
+                            <td>{{currentTodo.title | todoCategory}}</td>
                             <td>{{currentTodo.createdOn}}</td>
                             <td><button (click)="update()">Update</button></td>
                         </tr>

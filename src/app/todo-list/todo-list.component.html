@@ -38,7 +38,7 @@
                     <td *ngIf="temp.completed; else notCompletedBlock"><input type="checkbox" (click)="updateTodo(temp.title, temp.id, temp.createdOn)" checked></td>
                     <ng-template #notCompletedBlock><td><input type="checkbox" (click)="completeTodo(temp)"></td></ng-template>
                     <td><a [routerLink]="['/todo', temp.id]" (click)="emitActiveTab('todoInfo')">{{temp.title | todoName}}</a></td>
-                    <td>{{temp.title | todoCategory}}</td>
+                    <td [class]="categoryColor(temp)">{{temp.title | todoCategory}}</td>
                     <td><input id="delete-img" type="image" src="../../assets/delete.png" (click)="deleteTodo(temp)"></td>
                 </tr>
             </tbody>

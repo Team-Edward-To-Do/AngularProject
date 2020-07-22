@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Todo } from '../todo';
+import { ITodo } from '../todo';
 
 @Injectable({
   providedIn: 'root'
@@ -13,24 +13,24 @@ export class TodoService {
 
   constructor(private httpCli: HttpClient) { }
 
-  getTodos(): Observable<Todo[]> {
+  getTodos(): Observable<ITodo[]> {
     const httpHead = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Orgin': '*'
       })
     };
-    return this.httpCli.get<Todo[]>(this.url, httpHead);
+    return this.httpCli.get<ITodo[]>(this.url, httpHead);
   }
 
-  getTodo(todoId): Observable<Todo> {
+  getTodo(todoId): Observable<ITodo> {
     const httpHead = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Orgin': '*'
       })
     };
-    return this.httpCli.get<Todo>(this.url + '/' + todoId, httpHead);
+    return this.httpCli.get<ITodo>(this.url + '/' + todoId, httpHead);
   }
 
   postTodo(todoForm): Observable<string> {
@@ -43,24 +43,24 @@ export class TodoService {
     return this.httpCli.post<string>(this.url, todoForm, httpHead);
   }
 
-  updateTodo(todoForm): Observable<Todo> {
+  updateTodo(todoForm): Observable<ITodo> {
     const httpHead = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Orgin': '*'
       })
     };
-    return this.httpCli.put<Todo>(this.url, todoForm, httpHead);
+    return this.httpCli.put<ITodo>(this.url, todoForm, httpHead);
   }
 
-  completeTodo(todoId): Observable<Todo> {
+  completeTodo(todoId): Observable<ITodo> {
     const httpHead = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Orgin': '*'
       })
     };
-    return this.httpCli.patch<Todo>(this.url + '/' + todoId, httpHead);
+    return this.httpCli.patch<ITodo>(this.url + '/' + todoId, httpHead);
   }
 
   deleteTodo(todoId): Observable<string> {
