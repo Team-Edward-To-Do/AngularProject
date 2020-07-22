@@ -1,6 +1,7 @@
 .input-box {
     height: 30px;
     border-radius: 3px;
+    color: black;
 }
 #delete-img {
     height: 20px;

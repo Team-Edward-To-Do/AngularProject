@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { TodoService } from '../services/todo-service.service';
 import { SharedService } from '../services/shared.service';
-import { Todo } from '../todo';
+import { ITodo } from '../todo';
 
 @Component({
   selector: 'app-todo',
@@ -11,11 +11,13 @@ import { Todo } from '../todo';
   styleUrls: ['./todo.component.css']
 })
 export class TodoComponent implements OnInit {
-  currentTodo: Todo;
+  currentTodo: ITodo;
   currentTodoSelected = false;
   currentId: string;
-  uncompleteTodo: Todo;
+  uncompleteTodo: ITodo;
   doUpdate: boolean; // Whether to do updates or not. true - update, false - no update
+  attrName: string;
+  attrCategory: string;
 
   constructor(private route: ActivatedRoute, private todoService: TodoService, private sharedService: SharedService) {
     this.currentId = this.route.snapshot.paramMap.get('id');
@@ -28,11 +30,21 @@ export class TodoComponent implements OnInit {
     this.doUpdate = false;
   }
 
+  get updateName(): string {
+    return this.attrName;
+  }
+
+  set updateName(temp: string) {
+    this.attrName = temp;
+  }
+
   // gets a Todo by it's Id
   getTodo(currentId): void {
     this.todoService.getTodo(currentId).subscribe(
       response => {
         this.currentTodo = response;
+        this.attrName = this.getName(this.currentTodo.title);
+        this.attrCategory = this.getDelineatorPlusCategory(this.currentTodo.title);
       }
     );
   }
@@ -42,7 +54,8 @@ export class TodoComponent implements OnInit {
   }
 
   // Change completed state of a Todo to false and update the Todo.
-  updateTodo1(id: number, completed: boolean, title: string, createdOn: any): void {
+  updateTodo1(id: number, completed: boolean, name: string, createdOn: any): void {
+    const title = name + this.attrCategory;
     this.uncompleteTodo = {
                           title: title,
                           completed: completed,
@@ -76,6 +89,24 @@ export class TodoComponent implements OnInit {
   // If the Update button is clicked
   update(): void{
     this.doUpdate = true; // set Update on
+  }
+
+  getName(title: string): string {
+    const startOfDelineator = title.indexOf('&*(');
+    if (startOfDelineator !== -1) {
+        return title.substring(0, startOfDelineator);
+    } else {
+        return title;
+    }
+  }
+
+  getDelineatorPlusCategory(title: string): string {
+    const startOfDelineator = title.indexOf('&*(');
+    if (startOfDelineator !== -1 && title.substring(startOfDelineator).length >= 4) {
+        return title.substring(startOfDelineator);
+    } else {
+        return 'General';
+    }
   }
 
   ngOnInit(): void {

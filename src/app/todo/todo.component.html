@@ -37,7 +37,7 @@
                                 &nbsp; {{currentTodo.completed}}
                             </td>
                         </ng-template>
-                        <td><input class="input-box" type="text" #todoTitle value={{currentTodo.title}}></td>
+                        <td><input class="input-box" type="text" #todoTitle [(ngModel)]="updateName"></td>
                         <td>{{currentTodo.createdOn}}</td>
                         <td>
                             <button (click)="updateTodo2(currentTodo.id, currentTodo.completed, todoTitle.value, currentTodo.createdOn)">Submit</button>

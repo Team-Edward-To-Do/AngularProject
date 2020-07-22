@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TodoService } from '../services/todo-service.service';
 import { SharedService } from '../services/shared.service';
-import { Todo } from '../todo';
+import { ITodo } from '../todo';
 
 
 @Component({
@@ -11,10 +11,10 @@ import { Todo } from '../todo';
   styleUrls: ['./todo-list.component.css']
 })
 export class TodoListComponent implements OnInit {
-  listOfTodos: Todo[];
-  filteredTodos: Todo[];
+  listOfTodos: ITodo[];
+  filteredTodos: ITodo[];
   todoName: string;
-  uncompleteTodo: Todo;
+  uncompleteTodo: ITodo;
   attrListFilter = '';
 
   attrName = '';
@@ -56,9 +56,9 @@ export class TodoListComponent implements OnInit {
     this.performFilter(this.attrListFilter) : this.listOfTodos;
   }
 
-  performFilter(filterBy: string): Todo[] {
+  performFilter(filterBy: string): ITodo[] {
     filterBy = filterBy.toLocaleLowerCase();
-    return this.listOfTodos.filter((singleTodo: Todo) =>
+    return this.listOfTodos.filter((singleTodo: ITodo) =>
     singleTodo.title.toLocaleLowerCase().indexOf(filterBy) !== -1);
   }
 
