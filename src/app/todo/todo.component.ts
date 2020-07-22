@@ -40,7 +40,7 @@ export class TodoComponent implements OnInit {
   emitActiveTab(activeTab: string): void {
     this.sharedService.emitChange(activeTab);
   }
-  
+
   // Change completed state of a Todo to false and update the Todo.
   updateTodo1(id: number, completed: boolean, title: string, createdOn: any): void {
     this.uncompleteTodo = {
@@ -49,7 +49,7 @@ export class TodoComponent implements OnInit {
                           id: id,
                           createdOn: createdOn
     };
-    let form = JSON.stringify(this.uncompleteTodo);
+    const form = JSON.stringify(this.uncompleteTodo);
     this.todoService.updateTodo(form).subscribe(
       response => {
         this.currentTodo = response;

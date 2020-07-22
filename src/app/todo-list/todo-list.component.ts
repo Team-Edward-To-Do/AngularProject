@@ -17,28 +17,50 @@ export class TodoListComponent implements OnInit {
   uncompleteTodo: Todo;
   attrListFilter = '';
 
+  attrName = '';
+  attrCategory = '';
+
   todos = new FormGroup({
-    title: new FormControl(''),
+    title: new FormControl('')
   });
 
   constructor(private todoService: TodoService, private sharedService: SharedService) {
     this.getTodos();
   }
 
+  get createName(): string {
+    return this.attrName;
+  }
+
+  set createName(temp: string) {
+    this.attrName = temp;
+    this.todos.setValue({title: this.attrName + '&*(' + this.attrCategory});
+  }
+
+  get createCategory(): string {
+    return this.attrCategory;
+  }
+
+  set createCategory(temp: string) {
+    this.attrCategory = temp;
+    this.todos.setValue({title: this.attrName + '&*(' + this.attrCategory});
+  }
+
   get listFilter(): string {
     return this.attrListFilter;
-}
-set listFilter(temp: string) {
+  }
+
+  set listFilter(temp: string) {
     this.attrListFilter = temp;
     this.filteredTodos = this.attrListFilter ?
     this.performFilter(this.attrListFilter) : this.listOfTodos;
-}
+  }
 
-performFilter(filterBy: string): Todo[] {
-  filterBy = filterBy.toLocaleLowerCase();
-  return this.listOfTodos.filter((singleTodo: Todo) =>
-  singleTodo.title.toLocaleLowerCase().indexOf(filterBy) !== -1);
-}
+  performFilter(filterBy: string): Todo[] {
+    filterBy = filterBy.toLocaleLowerCase();
+    return this.listOfTodos.filter((singleTodo: Todo) =>
+    singleTodo.title.toLocaleLowerCase().indexOf(filterBy) !== -1);
+  }
 
   emitActiveTab(activeTab: string): void {
     this.sharedService.emitChange('todoInfo');
@@ -54,6 +76,7 @@ performFilter(filterBy: string): Todo[] {
   }
 
   postTodo(todoSub: FormGroup): void {
+    console.log(this.attrName);
     let form = JSON.stringify(todoSub.value);
     this.todoService.postTodo(form).subscribe(
       response => {
@@ -69,7 +92,7 @@ performFilter(filterBy: string): Todo[] {
                           completed: false,
                           id: id,
                           createdOn: createdOn
-    }
+    };
     const form = JSON.stringify(this.uncompleteTodo);
     this.todoService.updateTodo(form).subscribe(
       response => {
