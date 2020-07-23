@@ -134,7 +134,7 @@ export class TodoListComponent implements OnInit {
 
   deleteTodo(todo): void {
     const name = this.getName(todo.title);
-    if (confirm('Are you sure want to delete this todo: ' + name)) {
+    if (confirm('Are you sure want to delete this todo: ' + name + '?')) {
       const todoId = todo.id;
       this.todoService.deleteTodo(todoId).subscribe(
         response => {
