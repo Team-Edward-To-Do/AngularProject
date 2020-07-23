@@ -13,17 +13,17 @@ option {
 }
 
 .General {
-    color: #581845;
+    color: black;
 }
 
 .School {
-    color: #900c3f;
+    color: hotpink;
 }
 
 .Work {
-    color: #c70039;
+    color: #02a823;
 }
 
 .Personal {
-    color: #ff5733;
+    color: #fc5a03;
 }
